@@ -17,9 +17,9 @@ import java.util.List;
  */
 public class TestBase {
 
+
     private static List<BrowserThreads> webDriverThreadPool = Collections.synchronizedList(new ArrayList<>());
     private static ThreadLocal<BrowserThreads> driverThread;
-
 
     @BeforeSuite(alwaysRun = true)
     public static void instantiateDriverObject() {
@@ -33,9 +33,14 @@ public class TestBase {
         };
     }
 
+    public static void setBrowserUrl(String value) {
+        System.setProperty("seleniumUrl", value);
+    }
+
     public static String getProperties(Repository repository) {
         return PropertiesUtil.create(Repository.LOCATION.getValue()).data(repository);
     }
+
 
     public static WebDriver driver() {
         return driverThread.get().getDriver();
@@ -53,21 +58,14 @@ public class TestBase {
         return PageFactory.initElements(driver(), clazz);
     }
 
-
     @AfterMethod(alwaysRun = true)
     public static void clearCookies() {
-        try {
-            TestBase.driver().manage().deleteAllCookies();
-            TestBase.driver().navigate().refresh();
-        } catch (Exception e) {
-            e.getMessage();
-        }
+        TestBase.driver().manage().deleteAllCookies();
+        TestBase.driver().navigate().refresh();
     }
 
     @AfterSuite(alwaysRun = true)
     public static void quitBrowser() {
         webDriverThreadPool.forEach(BrowserThreads::quitDriver);
     }
-
-
 }

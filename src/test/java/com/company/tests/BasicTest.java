@@ -11,7 +11,8 @@ public class BasicTest extends TestBase {
     @Test
     public void googleSearch() throws Exception {
         HomePage page = pageFactory(HomePage.class);
-        page.writeInTextBox()
+        page.navigateToSite("https://www.google.com")
+            .writeInTextBox()
                 .goToLogInPage();
 
     }

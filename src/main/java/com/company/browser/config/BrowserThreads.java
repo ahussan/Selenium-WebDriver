@@ -40,7 +40,7 @@ public class BrowserThreads {
     private WebDriver webdriver;
     private BrowserType selectedDriverType;
     private BrowserMobProxy browserMobProxy;
-    private boolean usingBrowserMobProxy = false;
+    private boolean usingBrowserMobProxy = true;
 
     private WebDriver getDriver(boolean useBrowserMobProxy) {
         if (null != webdriver && usingBrowserMobProxy != useBrowserMobProxy) {
@@ -139,7 +139,7 @@ public class BrowserThreads {
     }
 
     private BrowserType getBrowser() {
-        BrowserType browserType = CHROME;//FIREFOX;c
+        BrowserType browserType = CHROME;//FIREFOX;
         try {
             browserType = valueOf(TestBase.getProperties(Repository.BROWSER).toUpperCase());
         } catch (IllegalArgumentException ignored) {

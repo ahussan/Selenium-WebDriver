@@ -22,10 +22,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="webdrive" />
         <module name="webdriver" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="webdrive" target="1.8" />
       <module name="webdriver" target="1.8" />
     </bytecodeTargetLevel>
   </component>

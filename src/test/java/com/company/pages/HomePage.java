@@ -17,6 +17,12 @@ public class HomePage {
         this.driver = new Browser(driver);
     }
 
+    public HomePage navigateToSite(String url){
+        driver.navigate().to(url);
+        driver.getJavascript().waitForPageToLoad();
+        return pageFactory(HomePage.class);
+    }
+
     public HomePage writeInTextBox(){
         driver.untilFound(TEXT_BOX);
         driver.findElement(TEXT_BOX).sendKeys("Test Text");
