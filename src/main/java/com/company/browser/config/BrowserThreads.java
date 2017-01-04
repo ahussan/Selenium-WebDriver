@@ -139,7 +139,7 @@ public class BrowserThreads {
     }
 
     private BrowserType getBrowser() {
-        BrowserType browserType = CHROME;//FIREFOX;
+        BrowserType browserType = FIREFOX; //CHROME
         try {
             browserType = valueOf(TestBase.getProperties(Repository.BROWSER).toUpperCase());
         } catch (IllegalArgumentException ignored) {
