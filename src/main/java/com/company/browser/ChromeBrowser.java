@@ -17,24 +17,30 @@ import java.util.HashMap;
 public class ChromeBrowser implements IBrowserThreads {
     @Override
     public DesiredCapabilities getDesiredCapabilities(Proxy proxySettings) {
+
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
         capabilities.setCapability("chrome.switches",
                 Collections.singletonList("--no-default-browser-check"));
         HashMap<String, String> chromePreferences = new HashMap<>();
         chromePreferences.put("profile.password_manager_enabled", "false");
         capabilities.setCapability("chrome.prefs", chromePreferences);
-        capabilities.setCapability("screenResolution", "1280x1024");
-
-        //**************
+        //capabilities.setCapability("screenResolution", "1280x1024");
 
         String downloadFilepath = "src/test/resources/download";
         HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
         chromePrefs.put("profile.default_content_settings.popups", 0);
         chromePrefs.put("download.default_directory", downloadFilepath);
+        chromePrefs.put("credentials_enable_service", false);
+        chromePrefs.put("profile.password_manager_enabled", false);
         ChromeOptions options = new ChromeOptions();
         HashMap<String, Object> chromeOptionsMap = new HashMap<String, Object>();
         options.setExperimentalOption("prefs", chromePrefs);
         options.addArguments("--test-type");
+        options.addArguments("chrome.switches", "--disable-extensions");
+        //To Disable any browser notifications
+        options.addArguments("--disable-notifications");
+        //To disable yellow strip info bar which prompts info messages
+        options.addArguments("disable-infobars");
 
         capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptionsMap);
         capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);

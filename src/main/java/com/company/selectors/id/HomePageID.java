@@ -10,7 +10,7 @@ import static org.openqa.selenium.By.id;
  * Created by anjalhussan on 10/22/16.
  */
 public enum HomePageID implements Supplier<By>{
-    TEXT_BOX("gs_htif0")
+    TEXT_BOX("lst-ib")
     ;
 
     private final By by;

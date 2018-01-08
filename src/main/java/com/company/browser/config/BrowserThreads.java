@@ -20,13 +20,13 @@ import java.net.URL;
 import static com.company.browser.config.BrowserType.CHROME;
 import static com.company.browser.config.BrowserType.FIREFOX;
 import static com.company.browser.config.BrowserType.valueOf;
+import static org.bouncycastle.crypto.tls.ConnectionEnd.server;
 import static org.openqa.selenium.Proxy.ProxyType.MANUAL;
 
 /**
  * Created by anjalhussan on 10/22/16.
  */
 public class BrowserThreads {
-
 
     private final BrowserType defaultBrowserType = getBrowser();
     private final String browser = System.getProperty("browser", defaultBrowserType.toString()).toUpperCase();
@@ -52,12 +52,15 @@ public class BrowserThreads {
             if (proxyEnabled || useBrowserMobProxy) {
                 if (useBrowserMobProxy) {
                     usingBrowserMobProxy = true;
+
                     browserMobProxy = new BrowserMobProxyServer();
                     browserMobProxy.start();
                     if (proxyEnabled) {
                         browserMobProxy.setChainedProxy(new InetSocketAddress(proxyHostname, proxyPort));
                     }
                     proxy = ClientUtil.createSeleniumProxy(browserMobProxy);
+                    proxy.setHttpProxy("localhost:"+ browserMobProxy.getPort()); // for latest MacOS
+                    proxy.setSslProxy("localhost:"+ browserMobProxy.getPort());
                 } else {
                     proxy = new Proxy();
                     proxy.setProxyType(MANUAL);
@@ -135,7 +138,6 @@ public class BrowserThreads {
         } else {
             webdriver = selectedDriverType.browser.getWebDriverObject(desiredCapabilities);
         }
-        webdriver.manage().window().setSize(new Dimension(1280, 1024));
     }
 
     private BrowserType getBrowser() {
